@@ -19,8 +19,8 @@ tags = output.decode().split("\n")
 latest = tags[-2]
 print("### working on tag ... {} ####".format(latest))
 # Make the archive file using the system commands
-build_file = "<projectname>-{}.tar.gz".format(latest)
-os.system("tar -cvf {} prof".format(build_file))
+build_file = "project-{}.tar.gz".format(latest)
+os.system("tar -cvf {} project".format(build_file))
 print("#### uploading ...######")
 client = boto3.client("s3", config= boto3.session.Config(signature_version='s3v4'),
                             aws_access_key_id=KEY,
