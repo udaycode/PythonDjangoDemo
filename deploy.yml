@@ -1,0 +1,32 @@
+---
+- name: Deploy Django app on the ubuntu server
+  hosts: <hostname>
+  remote_user: ubuntu
+  tasks:
+    - name: remove existing project folder
+      shell: rm -rf <project name with location>
+      args:
+        chdir: /home/ubuntu/services/<projectname>/
+    - name: pull the code from s3 bucket
+      shell: aws s3 cp s3://<bucket name>/<projectname>-{{version}}.tar.gz project.tar.gz
+      args: 
+        creates: project.tar.gz
+        chdir: /home/ubuntu/services/<projectname>/
+    - name: unzip the tar file
+      shell: tar -xvf project.tar.gz
+      args:              
+        chdir: /home/ubuntu/services/<projectname>/
+    - name: remove the tar files
+      shell: rm *.tar.gz 
+      args:               
+        chdir: /home/ubuntu/services/<projectname>/
+    - name: restarting gunicorn
+      become: true
+      become_method: sudo
+      become_user: root
+      command: systemctl restart  <projectname>.service 
+    - name: status of  gunicorn
+      become: true
+      become_method: sudo
+      become_user: root
+      command: systemctl status  <projectname>.service
