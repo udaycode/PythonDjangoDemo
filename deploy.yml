@@ -29,4 +29,4 @@
       become: true
       become_method: sudo
       become_user: root
-      command: systemctl status  project.service
+      command: systemctl status project.service
