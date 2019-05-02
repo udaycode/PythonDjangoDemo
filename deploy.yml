@@ -4,9 +4,7 @@
   remote_user: ubuntu
   tasks:
     - name: remove existing project folder
-      shell: rm -rf project
-      args:
-        chdir: /home/ubuntu/
+      shell: rm -rf /home/ubuntu/project/project
     - name: pull the code from s3 bucket
       shell: aws s3 cp s3://ayes-demo-builds/project-{{version}}.tar.gz project.tar.gz
       args: 
@@ -15,10 +13,6 @@
     - name: unzip the tar file
       shell: tar -xvf project.tar.gz
       args:              
-        chdir: /home/ubuntu/
-    - name: remove the tar files
-      shell: rm *.tar.gz 
-      args:               
         chdir: /home/ubuntu/project/
     - name: restarting gunicorn
       become: true
@@ -30,3 +24,5 @@
       become_method: sudo
       become_user: root
       command: systemctl status project.service
+    - name: remove the tar files
+      shell: rm /home/ubuntu/project/project.tar.gz
