@@ -4,7 +4,9 @@
   remote_user: ubuntu
   tasks:
     - name: remove existing project folder
-      shell: rm -rf /home/ubuntu/project/project
+      shell: rm -rf project
+      args:
+        chdir: /home/ubuntu/project/
     - name: pull the code from s3 bucket
       shell: aws s3 cp s3://ayes-demo-builds/project-{{version}}.tar.gz project.tar.gz
       args: 
