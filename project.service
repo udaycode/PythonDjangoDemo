@@ -1,0 +1,11 @@
+[Unit]
+Description=Project
+After=network.target
+
+[Service]
+User=ubuntu
+WorkingDirectory=/home/ubuntu/project
+ExecStart=/home/ubuntu/env/bin/gunicorn --chdir /home/ubuntu/project project.wsgi
+
+[Install]
+WantedBy=multi-user.target
